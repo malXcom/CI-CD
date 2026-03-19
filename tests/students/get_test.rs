@@ -44,7 +44,7 @@ async fn test_get_all_returns_initial_students() {
         serde_json::from_slice(&resp.into_body().collect().await.unwrap().to_bytes()).unwrap();
 
     let students = body.as_array().unwrap();
-    assert_eq!(students.len(), 2);
+    assert_eq!(students.len(), 15);
     assert_eq!(students[0]["firstName"], "John");
     assert_eq!(students[1]["firstName"], "Bob");
 }

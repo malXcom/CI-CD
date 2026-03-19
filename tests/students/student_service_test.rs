@@ -111,7 +111,7 @@ fn test_validate_update_all_none_is_valid() {
 fn test_get_all_returns_seed_data() {
     let store = new_store();
     let students = get_all(&store);
-    assert_eq!(students.len(), 2);
+    assert_eq!(students.len(), 15);
 }
 
 #[test]
@@ -132,7 +132,7 @@ fn test_get_by_id_not_found() {
 fn test_create_assigns_incremented_id() {
     let store = new_store();
     let student = create(&store, make_payload("new@email.com", 15.0)).unwrap();
-    assert_eq!(student.id, 3);
+    assert_eq!(student.id, 16);
 }
 
 #[test]
@@ -208,7 +208,7 @@ fn test_delete_nonexistent_student() {
 fn test_stats_total_students() {
     let store = new_store();
     let stats = get_stats(&store).unwrap();
-    assert_eq!(stats.total_students, 2);
+    assert_eq!(stats.total_students, 15);
 }
 
 #[test]
@@ -256,5 +256,5 @@ fn test_search_query_too_short_returns_error() {
 fn test_search_none_returns_all() {
     let store = new_store();
     let results = search(&store, None).unwrap();
-    assert_eq!(results.len(), 2);
+    assert_eq!(results.len(), 15);
 }
