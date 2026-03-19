@@ -3,6 +3,10 @@ use std::sync::{Arc, Mutex};
 
 pub type SharedStore = Arc<Mutex<Vec<Student>>>;
 
+pub fn empty_store() -> SharedStore {
+    Arc::new(Mutex::new(vec![]))
+}
+
 pub fn new_store() -> SharedStore {
     Arc::new(Mutex::new(vec![
         Student {

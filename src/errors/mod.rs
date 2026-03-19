@@ -6,6 +6,7 @@ use axum::{
 };
 use serde_json::json;
 
+#[derive(Debug)]
 pub enum AppError {
     NotFound(String),
     Conflict(String),
