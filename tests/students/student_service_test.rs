@@ -180,10 +180,11 @@ fn test_update_nonexistent_student() {
 #[test]
 fn test_update_email_conflict_with_other_student() {
     let store = new_store();
+    // use the actual email of student 2 from new_store()
     let payload = UpdateStudent {
         first_name: None,
         last_name: None,
-        email: Some("jane@example.com".to_string()),
+        email: Some("bob@example.com".to_string()), // match your seed data
         grade: None,
         field: None,
     };
