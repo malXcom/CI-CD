@@ -25,11 +25,12 @@ jobs:
         rust: [stable, beta]
       fail-fast: false
     steps:
+      - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust }}
           components: clippy, rustfmt
-      - uses: Swatinem/rust-cache@v2.7.3
+      - uses: Swatinem/rust-cache@v2
         with:
           key: ${{ matrix.rust }}
       - name: Print toolchain versions
@@ -48,6 +49,7 @@ jobs:
         rust: [stable, beta]
       fail-fast: false
     steps:
+      - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust }}
@@ -71,6 +73,7 @@ jobs:
         rust: [stable, beta]
       fail-fast: false
     steps:
+      - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust }}
@@ -92,6 +95,7 @@ jobs:
         rust: [stable, beta]
       fail-fast: false
     steps:
+      - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust }}
