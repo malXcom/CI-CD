@@ -20,7 +20,7 @@ async fn test_get_all_returns_200_and_array() {
         .await
         .unwrap();
 
-    assert_eq!(resp.status(), StatusCode::ACCEPTED);
+    assert_eq!(resp.status(), StatusCode::OK);
 
     let body: Value =
         serde_json::from_slice(&resp.into_body().collect().await.unwrap().to_bytes()).unwrap();
