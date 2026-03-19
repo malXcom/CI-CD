@@ -8,10 +8,9 @@
 #![warn(clippy::todo)]
 #![warn(clippy::unimplemented)]
 
-
+pub mod controllers;
 pub mod errors;
 pub mod models;
 pub mod routes;
 pub mod services;
 pub mod store;
-pub mod controllers;

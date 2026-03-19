@@ -1,13 +1,16 @@
-use axum::{
-    extract::{Path, Query, State, rejection::{PathRejection, JsonRejection}},
-    http::StatusCode,
-    Json,
-};
 use crate::{
     errors::AppError,
-    models::{CreateStudent, SearchQuery, StudentStats, UpdateStudent, Student},
+    models::{CreateStudent, SearchQuery, Student, StudentStats, UpdateStudent},
     services::students as service,
     store::SharedStore,
+};
+use axum::{
+    Json,
+    extract::{
+        Path, Query, State,
+        rejection::{JsonRejection, PathRejection},
+    },
+    http::StatusCode,
 };
 
 pub async fn list(State(store): State<SharedStore>) -> Json<Vec<Student>> {
@@ -47,9 +50,7 @@ pub async fn delete(
     service::delete(&store, id).map(|_| StatusCode::NO_CONTENT)
 }
 
-pub async fn stats(
-    State(store): State<SharedStore>,
-) -> Result<Json<StudentStats>, AppError> {
+pub async fn stats(State(store): State<SharedStore>) -> Result<Json<StudentStats>, AppError> {
     service::get_stats(&store).map(Json)
 }
 

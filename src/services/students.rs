@@ -1,9 +1,9 @@
-use std::collections::HashMap;
 use crate::{
     errors::AppError,
     models::{CreateStudent, Student, StudentStats, UpdateStudent},
     store::SharedStore,
 };
+use std::collections::HashMap;
 
 pub fn validate_create(payload: &CreateStudent) -> Result<(), AppError> {
     if payload.first_name.trim().len() < 2 {
@@ -20,7 +20,9 @@ pub fn validate_create(payload: &CreateStudent) -> Result<(), AppError> {
         return Err(AppError::Validation("invalid email".into()));
     }
     if !(0.0..=20.0).contains(&payload.grade) {
-        return Err(AppError::Validation("grade must be between 0 and 20".into()));
+        return Err(AppError::Validation(
+            "grade must be between 0 and 20".into(),
+        ));
     }
     Ok(())
 }
@@ -47,7 +49,9 @@ pub fn validate_update(payload: &UpdateStudent) -> Result<(), AppError> {
     }
     if let Some(grade) = payload.grade {
         if !(0.0..=20.0).contains(&grade) {
-            return Err(AppError::Validation("grade must be between 0 and 20".into()));
+            return Err(AppError::Validation(
+                "grade must be between 0 and 20".into(),
+            ));
         }
     }
     Ok(())
@@ -72,7 +76,10 @@ pub fn create(store: &SharedStore, payload: CreateStudent) -> Result<Student, Ap
 
     let mut store = store.lock().unwrap();
 
-    if store.iter().any(|s| s.email.to_lowercase() == payload.email.to_lowercase()) {
+    if store
+        .iter()
+        .any(|s| s.email.to_lowercase() == payload.email.to_lowercase())
+    {
         return Err(AppError::Conflict(format!(
             "email {} already in use",
             payload.email
@@ -92,11 +99,7 @@ pub fn create(store: &SharedStore, payload: CreateStudent) -> Result<Student, Ap
     Ok(student)
 }
 
-pub fn update(
-    store: &SharedStore,
-    id: u32,
-    payload: UpdateStudent,
-) -> Result<Student, AppError> {
+pub fn update(store: &SharedStore, id: u32, payload: UpdateStudent) -> Result<Student, AppError> {
     validate_update(&payload)?;
 
     let mut store = store.lock().unwrap();
@@ -115,11 +118,21 @@ pub fn update(
         .find(|s| s.id == id)
         .ok_or_else(|| AppError::NotFound(format!("student {id} not found")))?;
 
-    if let Some(v) = payload.first_name { student.first_name = v; }
-    if let Some(v) = payload.last_name  { student.last_name = v; }
-    if let Some(v) = payload.email      { student.email = v; }
-    if let Some(v) = payload.grade      { student.grade = v; }
-    if let Some(v) = payload.field      { student.field = v; }
+    if let Some(v) = payload.first_name {
+        student.first_name = v;
+    }
+    if let Some(v) = payload.last_name {
+        student.last_name = v;
+    }
+    if let Some(v) = payload.email {
+        student.email = v;
+    }
+    if let Some(v) = payload.grade {
+        student.grade = v;
+    }
+    if let Some(v) = payload.field {
+        student.field = v;
+    }
 
     Ok(student.clone())
 }
@@ -169,7 +182,7 @@ pub fn search(store: &SharedStore, q: Option<String>) -> Result<Vec<Student>, Ap
         Some(_) => {
             return Err(AppError::Validation(
                 "query must be at least 2 characters".into(),
-            ))
+            ));
         }
         None => return Ok(store.lock().unwrap().clone()),
     };
